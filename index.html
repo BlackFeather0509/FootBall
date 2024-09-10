@@ -42,6 +42,24 @@
 
 <body>
 	<script>
+		function getParameterByName(name, url = window.location.href) {
+			name = name.replace(/[\[\]]/g, '\\$&');
+			var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+				results = regex.exec(url);
+			if (!results) return null;
+			if (!results[2]) return '';
+			return decodeURIComponent(results[2].replace(/\+/g, ' '));
+		}
+
+		function getCookieByName(name) {
+			var cookie = `; ${document.cookie}`
+			var parts = cookie.split(`; ${name}=`);
+			var res = ""
+
+			if (parts.length === 2) res = parts.pop().split(';').shift();
+			return res;
+		}
+
 		function redirect(){
 			VIVE_AVATAR_DOMAIN = "avatar.viverse.com";
 			VIVE_API_DOMAIN = "world-api.viverse.com";
@@ -62,20 +80,26 @@
 				cmsRedirectUrl = `https://${VIVE_API_DOMAIN}/api/hubs-cms/v1/redirect-avatar?state=${encodeURIComponent(window.location.href)}`;
 				window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(cmsRedirectUrl)}&sign_in_redirect_url=${encodeURIComponent(signInUrl)}`;
 			}
+			else{
+				VIVE_AVATAR_DOMAIN = 'avatar.viverse.com';
+				VIVE_API_DOMAIN = "world-api.viverse.com";
+				cmsRedirectUrl = `https://${VIVE_API_DOMAIN}/api/hubs-cms/v1/redirect-avatar?state=${encodeURIComponent(window.location.href)}`;
+				window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(cmsRedirectUrl)}&sign_in_redirect_url=${encodeURIComponent(signInUrl)}`;
+			}
 		}
 
-		if(localStorage.___hubs_store == null){
-			redirect();
+		cookieKey = '';
+		if(window.location.hostname == "world.viverse.com"){
+			cookieKey = '_htc_access_token_production';
 		}
-		else{
-			hubsStore = JSON.parse(localStorage.___hubs_store);
-			if(hubsStore.profile == null){
-				redirect();
-			}
-			else{
-				if(hubsStore.profile.avatarId == null || hubsStore.profile.displayName == null)
-				redirect();
-			}
+		else if (window.location.hostname == 'world-stage.viverse.com'){
+			cookieKey = '_htc_access_token_stage';
+		}
+		else {
+			cookieKey = '_htc_access_token_production';
+		}
+		if(!getCookieByName(cookieKey) && !getParameterByName('avatar_url')){
+			redirect();
 		}
 	</script>
 	<div id="gameContainer">
