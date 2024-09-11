@@ -63,7 +63,8 @@
 		function redirect() {
 			VIVE_AVATAR_DOMAIN = "avatar.viverse.com";
 			VIVE_API_DOMAIN = "world-api.viverse.com";
-			signInUrl = `https://${VIVE_AVATAR_DOMAIN}/api/login?&callback_url=${encodeURIComponent(window.location.href)}`;
+			signInUrl = `https://${window.location.hostname}/api/v3/oauth/login?hl=en_US&callback=${encodeURIComponent(window.location.href)}`;
+			//signInUrl = `https://${VIVE_AVATAR_DOMAIN}/api/login?&callback_url=${encodeURIComponent(window.location.href)}`;
 			switch (window.location.hostname) {
 				case "world-dev.viverse.com":
 					VIVE_AVATAR_DOMAIN = "vr-viverse-web.htcwowdev.com";
@@ -78,7 +79,7 @@
 					break;
 			}
 			//window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(window.location.href)}&sign_in_redirect_url=${encodeURIComponent(signInUrl)}`;
-			window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(window.location.href)}&sign_in_redirect_url=${encodeURIComponent(window.location.href)}&version=v2`;
+			window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(window.location.href)}&sign_in_redirect_url=${encodeURIComponent(signInUrl)}&version=v2`;
 		}
 
 		cookieKey = '';
