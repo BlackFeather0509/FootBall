@@ -41,6 +41,7 @@
 </head>
 
 <body>
+	<script defer src="https://www.viverse.com/static-assets/viverse-sdk/1.2.1/viverse-sdk.umd.js"></script>
 	<script>
 		function getParameterByName(name, url = window.location.href) {
 			name = name.replace(/[\[\]]/g, '\\$&');
@@ -92,8 +93,33 @@
 			cookieKey = '_htc_access_token_production';
 		}
 		if (!getCookieByName(cookieKey) && !getParameterByName('avatar_url')) {
-			redirect();
+			//redirect();
 		}
+
+		globalThis.viverseClient = globalThis.viverse.client({
+			clientId: '50b4e4ef-e480-4950-bf68-4daf71cee7d5',
+			domain: 'avatar.viverse.com',
+			//cookieDomain: '{yourCookieDomain}', // Optional
+		});
+		// login
+		globalThis.viverseClient.loginWithRedirect({ redirectionUrl: `${encodeURIComponent(window.location.href)}` })
+		
+		/*
+		interface Result {
+			state: string;
+			access_token: string;
+			account_id: string; // user account ID
+			expire_in: number; // token expire in seconds
+		}//*/
+		window.addEventListener('load', async () => {
+			if (
+				window.location.search.includes('code=') &&
+				window.location.search.includes('state=')
+			) {
+				const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
+				console.log('handleRedirectCallback result', result);
+			}
+		});
 	</script>
 	<div id="gameContainer">
 		<canvas id="unity-canvas" data-pixel-art=""></canvas>
