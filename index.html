@@ -167,6 +167,8 @@
 				});
 			}
 
+			console.log('viverseClient');
+			console.log(globalThis.viverse);
 			globalThis.viverseClient = globalThis.viverse.client({
 				clientId: '50b4e4ef-e480-4950-bf68-4daf71cee7d5',
 				domain: 'avatar.viverse.com',
@@ -191,7 +193,7 @@
 					console.log('handleRedirectCallback result', result);
 				}
 			});
-			
+
 			var unityInstance = undefined;
 			createUnityInstance(canvas, config, progressHandler).then(function (instance) 
 			{
