@@ -77,9 +77,8 @@
 				default:
 					break;
 			}
-			//cmsRedirectUrl = `https://${VIVE_API_DOMAIN}/api/hubs-cms/v1/redirect-avatar?state=${encodeURIComponent(window.location.href)}`;
-			//window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(cmsRedirectUrl)}&sign_in_redirect_url=${encodeURIComponent(signInUrl)}`;
-			window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(window.location.href)}&sign_in_redirect_url=${encodeURIComponent(signInUrl)}`;
+			//window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(window.location.href)}&sign_in_redirect_url=${encodeURIComponent(signInUrl)}`;
+			window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(window.location.href)}&sign_in_redirect_url=${encodeURIComponent(window.location.href)}&version=v2`;
 		}
 
 		cookieKey = '';
