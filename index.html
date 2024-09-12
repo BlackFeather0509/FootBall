@@ -175,6 +175,9 @@
 			if (!window.location.search.includes('code=') || !window.location.search.includes('state=')) {
 				// login
 				globalThis.viverseClient.loginWithRedirect({ redirectionUrl: `${encodeURIComponent(window.location.href)}` });
+			}else{
+				const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
+				console.log('handleRedirectCallback result', result);
 			}
 			/*
 			interface Result {
