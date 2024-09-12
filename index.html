@@ -99,7 +99,6 @@
 		<canvas id="unity-canvas" data-pixel-art=""></canvas>
 		<script src="Build/FootBallBuild.loader.js"></script>
 		<script src="https://www.viverse.com/static-assets/viverse-sdk/1.2.1/viverse-sdk.umd.js"></script>
-		<script src="https://avatar.viverse.com/static-misc/avatar-js-sdk/1.1.1/Avatar-SDK.js"></script>
 		<script>
 			var canvas = document.querySelector("#unity-canvas");
 			var config = {
@@ -166,7 +165,6 @@
 					}, ms)
 				});
 			}
-
 			console.log('viverseClient');
 			console.log(globalThis.viverse);
 			globalThis.viverseClient = new globalThis.viverse.client({
@@ -174,9 +172,10 @@
 				domain: 'avatar.viverse.com',
 				//cookieDomain: '{yourCookieDomain}', // Optional
 			});
-			// login
-			globalThis.viverseClient.loginWithRedirect({ redirectionUrl: `${encodeURIComponent(window.location.href)}` })
-		
+			if (!window.location.search.includes('code=') || !window.location.search.includes('state=')) {
+				// login
+				globalThis.viverseClient.loginWithRedirect({ redirectionUrl: `${encodeURIComponent(window.location.href)}` });
+			}
 			/*
 			interface Result {
 			state: string;
@@ -185,10 +184,7 @@
 			expire_in: number; // token expire in seconds
 			}//*/
 			window.addEventListener('load', async () => {
-				if (
-					window.location.search.includes('code=') &&
-					window.location.search.includes('state=')
-				) {
+				if (window.location.search.includes('code=') && window.location.search.includes('state=')) {
 					const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
 					console.log('handleRedirectCallback result', result);
 				}
