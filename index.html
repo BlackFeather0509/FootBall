@@ -165,6 +165,7 @@
 					}, ms)
 				});
 			}
+			function 
 			console.log('viverseClient');
 			console.log(globalThis.viverse);
 			globalThis.viverseClient = new globalThis.viverse.client({
@@ -176,8 +177,9 @@
 				// login
 				globalThis.viverseClient.loginWithRedirect({ redirectionUrl: `${encodeURIComponent(window.location.href)}` });
 			}else{
-				const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
-				console.log('handleRedirectCallback result', result);
+				globalThis.viverseClient.handleRedirectCallback().then(function (result){
+					console.log('handleRedirectCallback result', result);
+				});
 			}
 			/*
 			interface Result {
