@@ -94,6 +94,36 @@
 		if (!getCookieByName(cookieKey) && !getParameterByName('avatar_url')) {
 			//redirect();
 		}
+		
+		async function Test(){
+			console.log('viverseClient: ', window.location.hostname);
+			globalThis.viverseClient = new globalThis.viverse.client({
+				clientId: '50b4e4ef-e480-4950-bf68-4daf71cee7d5',
+				domain: 'account-stage.htcvive.com',
+				cookieDomain: window.location.hostname, // Optional
+			});
+			
+			if (!window.location.search.includes('code=') || !window.location.search.includes('state=')) {
+				console.log('viverseClient loginWithRedirect');
+				// login
+				globalThis.viverseClient.loginWithRedirect({ redirectionUrl: window.location.href });
+			}else{
+				console.log('viverseClient has login:', window.location.search);
+				try {
+					const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
+					console.log('viverseClient handleRedirectCallback result:', result);
+				} catch (error) {
+					console.log('viverseClient handleRedirectCallback error:', error);
+				}
+			}
+		}
+		async function _getProfile() {
+			console.log('viverseClient getProfile');
+			return "viverseClient getProfile";
+		}
+
+		Test();
+
 	</script>
 	<div id="gameContainer">
 		<canvas id="unity-canvas" data-pixel-art=""></canvas>
@@ -165,63 +195,14 @@
 					}, ms)
 				});
 			}
-			async function Test(){
-			console.log('viverseClient: ', window.location.hostname);
-			//console.log(globalThis.viverse);
-			globalThis.viverseClient = new globalThis.viverse.client({
-				clientId: '50b4e4ef-e480-4950-bf68-4daf71cee7d5',
-				domain: 'account-stage.htcvive.com',
-				cookieDomain: window.location.hostname, // Optional
-			});
-			
-			if (!window.location.search.includes('code=') || !window.location.search.includes('state=')) {
-				console.log('viverseClient loginWithRedirect');
-				// login
-				globalThis.viverseClient.loginWithRedirect({ redirectionUrl: window.location.href });
-			}else{
-				console.log('viverseClient has login:', window.location.search);
-				//*
-				try {
-					const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
-					console.log('handleRedirectCallback result', result);
-					/*
-					globalThis.viverseClient.handleRedirectCallback().then(function (result){
-						console.log('handleRedirectCallback result', result);
-						console.log(result);
-					});//*/
-				} catch (error) {
-					console.log('handleRedirectCallback error', error);
-				}//*/
-			}
-			/*
-			interface Result {
-			state: string;
-			access_token: string;
-			account_id: string; // user account ID
-			expire_in: number; // token expire in seconds
-			}//*/
-			/*
-			window.addEventListener('load', async () => {
-				console.log('viverseClient load Listener');
-				if (window.location.search.includes('code=') && window.location.search.includes('state=')) {
-					try {
-					const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
-					console.log('handleRedirectCallback result', result);
-				} catch (error) {
-					console.log('handleRedirectCallback error', error);
-				}
-				}
-			});//*/
-			}
-			Test();
-			/*
+
 			var unityInstance = undefined;
 			createUnityInstance(canvas, config, progressHandler).then(function (instance) 
 			{
 				unityInstance = instance;
 				canvas = instance.Module.canvas;
 				onResize();
-			});//*/
+			});
 			
 			window.addEventListener('resize', onResize);
 			onResize();
