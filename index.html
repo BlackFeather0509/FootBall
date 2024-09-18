@@ -113,6 +113,9 @@
 				try {
 					const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
 					console.log('viverseClient handleRedirectCallback result:', result);
+
+					const accessToken = await globalThis.viverseClient.getToken();
+					console.log('viverseClient getToken result:', accessToken);
 				} catch (error) {
 					console.log('viverseClient handleRedirectCallback error:', error);
 				}
@@ -120,7 +123,7 @@
 		}
 		async function _getProfile() {
 			console.log('viverseClient getProfile');
-			return "viverseClient getProfile";
+			return 'viverseClient getProfile';
 		}
 
 		Test();
