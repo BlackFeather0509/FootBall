@@ -98,11 +98,18 @@
 		
 		async function Test(){
 			console.log('viverseClient: ', window.location.hostname);
-			globalThis.viverseClient = new globalThis.viverse.client({
-				clientId: '50b4e4ef-e480-4950-bf68-4daf71cee7d5',
-				domain: 'account-stage.htcvive.com',
-				cookieDomain: window.location.hostname, // Optional
-			});
+			if(!globalThis.viverseClient){
+				globalThis.viverseClient = new globalThis.viverse.client({
+					clientId: '50b4e4ef-e480-4950-bf68-4daf71cee7d5',
+					//domain: 'account.htcvive.com', // prod
+					domain: 'account-stage.htcvive.com', // stage
+					cookieDomain: window.location.hostname, // Optional
+					authorizationParams: {
+						scope: 'email',
+						authorities: window.location.hostname,
+					}
+				});
+			}
 			
 			if (!window.location.search.includes('code=') || !window.location.search.includes('state=')) {
 				console.log('viverseClient loginWithRedirect');
@@ -121,9 +128,24 @@
 				}
 			}
 		}
-		async function _getProfile() {
+		async function _getProfile(objectName, funcName) {
 			console.log('viverseClient getProfile');
-			return 'viverseClient getProfile';
+			const accessToken = await globalThis.viverseClient.getToken();
+			if(accessToken){
+				if(!globalThis.avatarClient){
+					globalThis.avatarClient = new globalThis.viverse.avatar({
+						//baseURL: 'https://sdk-api.viverse.com', // prod
+						baseURL: 'https://sdk-api-stage.viverse.com', // stage
+						token: accessToken, // Optional
+					});
+				}
+				const profile = await globalThis.avatarClient.getProfile();
+				console.log('viverseClient getProfile result:', profile);
+				unityInstance.SendMessage(objectName, funcName, profile);
+			}else{
+				console.log('viverseClient getProfile no accessToken');
+				unityInstance.SendMessage(objectName, funcName, null);
+			}
 		}
 
 		Test();
