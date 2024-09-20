@@ -101,8 +101,8 @@
 			if(!globalThis.viverseClient){
 				globalThis.viverseClient = new globalThis.viverse.client({
 					clientId: '50b4e4ef-e480-4950-bf68-4daf71cee7d5',
-					//domain: 'account.htcvive.com', // prod
-					domain: 'account-stage.htcvive.com', // stage
+					domain: 'account.htcvive.com', // prod
+					//domain: 'account-stage.htcvive.com', // stage
 					cookieDomain: window.location.hostname, // Optional
 					authorizationParams: {
 						scope: 'email',
@@ -134,8 +134,8 @@
 			if(accessToken){
 				if(!globalThis.avatarClient){
 					globalThis.avatarClient = new globalThis.viverse.avatar({
-						//baseURL: 'https://sdk-api.viverse.com', // prod
-						baseURL: 'https://sdk-api-stage.viverse.com', // stage
+						baseURL: 'https://sdk-api.viverse.com', // prod
+						//baseURL: 'https://sdk-api.viverse.com', // stage?
 						token: accessToken, // Optional
 					});
 				}
