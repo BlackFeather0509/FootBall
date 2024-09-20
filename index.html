@@ -134,8 +134,8 @@
 			if(accessToken){
 				if(!globalThis.avatarClient){
 					globalThis.avatarClient = new globalThis.viverse.avatar({
-						//baseURL: 'https://sdk-api.viverse.com', // prod
-						baseURL: 'https://avatar-stage.viverse.com', // stage?
+						//baseURL: 'https://sdk-api.viverse.com/', // prod
+						baseURL: 'https://avatar-stage.viverse.com/', // stage?
 						token: accessToken, // Optional
 					});
 				}
