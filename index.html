@@ -119,6 +119,7 @@
 				}
 			}
 		}
+		
 		async function _GetProfile(objectName, funcName) {
 			console.log('viverseClient GetProfile');
 			const accessToken = await globalThis.viverseClient.getToken();
@@ -133,9 +134,11 @@
 				const profile = await globalThis.avatarClient.getProfile();
 				console.log('viverseClient getProfile result:', profile);
 				unityInstance.SendMessage(objectName, funcName, profile);
+				return profile;
 			}else{
 				console.log('viverseClient getProfile no accessToken');
 				unityInstance.SendMessage(objectName, funcName, null);
+				return null;
 			}
 		}
 
