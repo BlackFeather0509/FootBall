@@ -41,7 +41,6 @@
 </head>
 
 <body>
-	<script src="https://www.viverse.com/static-assets/viverse-sdk/1.2.1/viverse-sdk.umd.js"></script>
 	<script>
 		function getParameterByName(name, url = window.location.href) {
 			name = name.replace(/[\[\]]/g, '\\$&');
@@ -86,90 +85,11 @@
 		if (!getCookieByName(cookieKey) && !getParameterByName('avatar_url')) {
 			//redirect();
 		}
-		
-		async function Test(){
-			console.log('viverseClient: ', window.location.hostname);
-			if(!globalThis.viverseClient){
-				globalThis.viverseClient = new globalThis.viverse.client({
-					clientId: '50b4e4ef-e480-4950-bf68-4daf71cee7d5',
-					//domain: 'account.htcvive.com', // prod
-					domain: 'account-stage.htcvive.com', // stage
-					cookieDomain: window.location.hostname, // Optional
-					authorizationParams: {
-						scope: 'email',
-						authorities: window.location.hostname,
-					}
-				});
-			}
-			
-			if (!window.location.search.includes('code=') || !window.location.search.includes('state=')) {
-				console.log('viverseClient loginWithRedirect');
-				// login
-				globalThis.viverseClient.loginWithRedirect({ redirectionUrl: window.location.href });
-			}else{
-				console.log('viverseClient has login:', window.location.search);
-				try {
-					const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
-					console.log('viverseClient handleRedirectCallback result:', result);
-
-					const accessToken = await globalThis.viverseClient.getToken();
-					console.log('viverseClient getToken result:', accessToken);
-				} catch (error) {
-					console.log('viverseClient handleRedirectCallback error:', error);
-				}
-			}
-		}
-		
-		async function _GetProfile(objectName, funcName) {
-			console.log('viverseClient GetProfile');
-			const accessToken = await globalThis.viverseClient.getToken();
-			if(accessToken){
-				if(!globalThis.avatarClient){
-					globalThis.avatarClient = new globalThis.viverse.avatar({
-						//baseURL: 'https://sdk-api.viverse.com/', // prod
-						baseURL: 'https://avatar-stage.viverse.com/', // stage
-						token: accessToken, // Optional
-					});
-				}
-				const profile = await globalThis.avatarClient.getProfile();
-				console.log('viverseClient getProfile result:', profile);
-				unityInstance.SendMessage(objectName, funcName, profile);
-				//return profile;
-			}else{
-				console.log('viverseClient getProfile no accessToken');
-				unityInstance.SendMessage(objectName, funcName, null);
-				//return null;
-			}
-		}
-
-		async function _GetDashboard (objectName, funcName) {
-			console.log('viverseClient _GetDashboard');
-			const accessToken = await globalThis.viverseClient.getToken();
-			if(accessToken){
-				if(!globalThis.gameDashboardClient){
-					globalThis.gameDashboardClient = new globalThis.viverse.gameDashboard({
-						//baseURL: 'https://www.viveport.com', // prod
-						baseURL: 'https://store-mage-stage-usw2.viveport.com', // stage
-						token: accessToken,
-					});
-				}
-				const leaderboard = (await globalThis.gameDashboardClient.getLeaderboard(appID, config, accessToken))
-				console.log('viverseClient _GetDashboard result:', leaderboard);
-				unityInstance.SendMessage(objectName, funcName, leaderboard);
-				return leaderboard;
-			}else{
-				console.log('viverseClient _GetDashboard no accessToken');
-				unityInstance.SendMessage(objectName, funcName, null);
-				return null;
-			}
-		}
-
-		Test();
-
 	</script>
 	<div id="gameContainer">
 		<canvas id="unity-canvas" data-pixel-art=""></canvas>
 		<script src="Build/FootBallBuild.loader.js"></script>
+		<script src="https://www.viverse.com/static-assets/viverse-sdk/1.2.1/viverse-sdk.umd.js"></script>
 		<script>
 			var canvas = document.querySelector("#unity-canvas");
 			var config = {
@@ -236,6 +156,84 @@
 					}, ms)
 				});
 			}
+			async function LoginViverse() {
+				console.log('viverseClient: ', window.location.hostname);
+				if (!globalThis.viverseClient) {
+					globalThis.viverseClient = new globalThis.viverse.client({
+						clientId: '50b4e4ef-e480-4950-bf68-4daf71cee7d5',
+						//domain: 'account.htcvive.com', // prod
+						domain: 'account-stage.htcvive.com', // stage
+						cookieDomain: window.location.hostname, // Optional
+						authorizationParams: {
+							scope: 'email',
+							authorities: window.location.hostname,
+						}
+					});
+				}
+
+				if (!window.location.search.includes('code=') || !window.location.search.includes('state=')) {
+					console.log('viverseClient loginWithRedirect');
+					// login
+					globalThis.viverseClient.loginWithRedirect({ redirectionUrl: window.location.href });
+				} else {
+					console.log('viverseClient has login:', window.location.search);
+					try {
+						const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
+						console.log('viverseClient handleRedirectCallback result:', result);
+
+						const accessToken = await globalThis.viverseClient.getToken();
+						console.log('viverseClient getToken result:', accessToken);
+					} catch (error) {
+						console.log('viverseClient handleRedirectCallback error:', error);
+					}
+				}
+			}
+
+			async function _GetProfile(objectName, funcName) {
+				console.log('viverseClient GetProfile');
+				const accessToken = await globalThis.viverseClient.getToken();
+				if (accessToken) {
+					if (!globalThis.avatarClient) {
+						globalThis.avatarClient = new globalThis.viverse.avatar({
+							//baseURL: 'https://sdk-api.viverse.com/', // prod
+							baseURL: 'https://avatar-stage.viverse.com/', // stage
+							token: accessToken, // Optional
+						});
+					}
+					const profile = await globalThis.avatarClient.getProfile();
+					console.log('viverseClient getProfile result:', profile);
+					unityInstance.SendMessage(objectName, funcName, profile);
+					//return profile;
+				} else {
+					console.log('viverseClient getProfile no accessToken');
+					unityInstance.SendMessage(objectName, funcName, null);
+					//return null;
+				}
+			}
+
+			async function _GetDashboard(objectName, funcName) {
+				console.log('viverseClient _GetDashboard');
+				const accessToken = await globalThis.viverseClient.getToken();
+				if (accessToken) {
+					if (!globalThis.gameDashboardClient) {
+						globalThis.gameDashboardClient = new globalThis.viverse.gameDashboard({
+							//baseURL: 'https://www.viveport.com', // prod
+							baseURL: 'https://store-mage-stage-usw2.viveport.com', // stage
+							token: accessToken,
+						});
+					}
+					const leaderboard = (await globalThis.gameDashboardClient.getLeaderboard(appID, config, accessToken))
+					console.log('viverseClient _GetDashboard result:', leaderboard);
+					unityInstance.SendMessage(objectName, funcName, leaderboard);
+					return leaderboard;
+				} else {
+					console.log('viverseClient _GetDashboard no accessToken');
+					unityInstance.SendMessage(objectName, funcName, null);
+					return null;
+				}
+			}
+
+			LoginViverse();
 
 			var unityInstance = undefined;
 			createUnityInstance(canvas, config, progressHandler).then(function (instance) 
