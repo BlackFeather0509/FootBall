@@ -63,23 +63,14 @@
 
 		function redirect() {
 			VIVE_AVATAR_DOMAIN = "avatar.viverse.com";
-			VIVE_API_DOMAIN = "world-api.viverse.com";
-			signInUrl = `https://${VIVE_AVATAR_DOMAIN}/api/login?&callback_url=${encodeURIComponent(window.location.href)}`;
-			switch (window.location.hostname) {
-				case "world-dev.viverse.com":
-					VIVE_AVATAR_DOMAIN = "vr-viverse-web.htcwowdev.com";
-					VIVE_API_DOMAIN = "world-api-dev.viverse.com";
-					break;
-				case "world-stage.viverse.com":
-					VIVE_AVATAR_DOMAIN = 'avatar-stage.viverse.com';
-					VIVE_API_DOMAIN = "world-api-stage.viverse.com";
-					break;
-				case "world.viverse.com":
-				default:
-					break;
+			if(window.location.hostname == "world-dev.viverse.com"){
+				VIVE_AVATAR_DOMAIN = "vr-viverse-web.htcwowdev.com";
 			}
-			//window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(window.location.href)}&sign_in_redirect_url=${encodeURIComponent(signInUrl)}`;
-			window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?redirect_url=${encodeURIComponent(window.location.href)}&sign_in_redirect_url=${encodeURIComponent(signInUrl)}&version=v2`;
+			else if (window.location.hostname == 'world-stage.viverse.com'){
+				VIVE_AVATAR_DOMAIN = 'avatar-stage.viverse.com';
+			}
+			signInUrl = `https://${VIVE_AVATAR_DOMAIN}/api/login?callback_url=${window.location.href}`;
+			window.location = `https://${VIVE_AVATAR_DOMAIN}/avatar/select-your-avatar?version=v2&redirect_url=${encodeURIComponent(window.location.href)}&sign_in_redirect_url=${encodeURIComponent(signInUrl)}`;
 		}
 
 		cookieKey = '';
@@ -128,14 +119,14 @@
 				}
 			}
 		}
-		async function _getProfile(objectName, funcName) {
-			console.log('viverseClient getProfile');
+		async function _GetProfile(objectName, funcName) {
+			console.log('viverseClient GetProfile');
 			const accessToken = await globalThis.viverseClient.getToken();
 			if(accessToken){
 				if(!globalThis.avatarClient){
 					globalThis.avatarClient = new globalThis.viverse.avatar({
 						//baseURL: 'https://sdk-api.viverse.com/', // prod
-						baseURL: 'https://avatar-stage.viverse.com/', // stage?
+						baseURL: 'https://avatar-stage.viverse.com/', // stage
 						token: accessToken, // Optional
 					});
 				}
