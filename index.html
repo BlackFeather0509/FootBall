@@ -142,6 +142,28 @@
 			}
 		}
 
+		async function _GetDashboard (objectName, funcName) {
+			console.log('viverseClient _GetDashboard');
+			const accessToken = await globalThis.viverseClient.getToken();
+			if(accessToken){
+				if(!globalThis.gameDashboardClient){
+					globalThis.gameDashboardClient = new globalThis.viverse.gameDashboard({
+						//baseURL: 'https://www.viveport.com', // prod
+						baseURL: 'https://store-mage-stage-usw2.viveport.com', // stage
+						token: accessToken,
+					});
+				}
+				const leaderboard = (await globalThis.gameDashboardClient.getLeaderboard(appID, config, accessToken))
+				console.log('viverseClient _GetDashboard result:', leaderboard);
+				unityInstance.SendMessage(objectName, funcName, leaderboard);
+				return leaderboard;
+			}else{
+				console.log('viverseClient _GetDashboard no accessToken');
+				unityInstance.SendMessage(objectName, funcName, null);
+				return null;
+			}
+		}
+
 		Test();
 
 	</script>
