@@ -202,7 +202,7 @@
 					}
 					const profile = await globalThis.avatarClient.getProfile();
 					console.log('viverseClient getProfile result:', profile);
-					unityInstance.SendMessage(objectName, funcName, profile);
+					unityInstance.SendMessage(objectName, funcName, JSON.stringify(profile));
 					//return profile;
 				} else {
 					console.log('viverseClient getProfile no accessToken');
