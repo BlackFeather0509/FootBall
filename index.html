@@ -180,9 +180,8 @@
 					try {
 						const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
 						console.log('viverseClient handleRedirectCallback result:', result);
-
-						const accessToken = await globalThis.viverseClient.getToken();
-						console.log('viverseClient getToken result:', accessToken);
+						//const accessToken = await globalThis.viverseClient.getToken();
+						//console.log('viverseClient getToken result:', accessToken);
 					} catch (error) {
 						console.log('viverseClient handleRedirectCallback error:', error);
 					}
@@ -196,7 +195,8 @@
 					if (!globalThis.avatarClient) {
 						globalThis.avatarClient = new globalThis.viverse.avatar({
 							//baseURL: 'https://sdk-api.viverse.com/', // prod
-							baseURL: 'https://avatar-stage.viverse.com/', // stage
+							//baseURL: 'https://avatar-stage.viverse.com/', // stage
+							baseURL: 'https://vr-viverse-sdk.htcwowdev.com/', // stage
 							token: accessToken, // Optional
 						});
 					}
