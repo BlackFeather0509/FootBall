@@ -191,9 +191,6 @@
 
 			async function _GetProfile(objectName, funcName) {
 				console.log('viverseClient GetProfile: ' + objectName + '.' + funcName);
-				objectName = UTF8ToString(objectName);
-				funcName = UTF8ToString(funcName);
-				console.log('viverseClient GetProfile: ' + objectName + '.' + funcName);
 				const accessToken = await globalThis.viverseClient.getToken();
 				if (accessToken) {
 					if (!globalThis.avatarClient) {
