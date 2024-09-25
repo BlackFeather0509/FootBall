@@ -176,10 +176,12 @@
 					// login
 					globalThis.viverseClient.loginWithRedirect({ redirectionUrl: window.location.href });
 				} else {
-					console.log('viverseClient has login:', window.location.search);
+					//console.log('viverseClient has login:', window.location.search);
+					console.log('viverseClient has login');
 					try {
-						const result = await globalThis.viverseClient.handleRedirectCallback(); //as Result
-						console.log('viverseClient handleRedirectCallback result:', result);
+						const result = await globalThis.viverseClient.handleRedirectCallback();
+						//console.log('viverseClient handleRedirectCallback result:', result);
+						console.log('viverseClient handleRedirectCallback');
 						//const accessToken = await globalThis.viverseClient.getToken();
 						//console.log('viverseClient getToken result:', accessToken);
 					} catch (error) {
@@ -201,7 +203,8 @@
 						});
 					}
 					const profile = await globalThis.avatarClient.getProfile();
-					console.log('viverseClient getProfile result:', profile);
+					//console.log('viverseClient getProfile result:', profile);
+					console.log('viverseClient getProfile');
 					unityInstance.SendMessage(objectName, funcName, JSON.stringify(profile));
 					//return JSON.stringify(profile);
 				} else {
