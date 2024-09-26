@@ -170,10 +170,11 @@
 						}
 					});
 				}
-				console.log('viverseClient check:', window.location.search);
+				
+				//console.log('viverseClient check:', window.location.search);
 				if (window.location.search.includes('error=')){
 					// error case
-					console.log('viverseClient loginWithRedirect error: ' + error);
+					console.log('viverseClient loginWithRedirect error: ' + window.location.search);
 				} else if (!window.location.search.includes('code=') || !window.location.search.includes('state=')) {
 					console.log('viverseClient loginWithRedirect');
 					// login
