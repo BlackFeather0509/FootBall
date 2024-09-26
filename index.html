@@ -175,6 +175,9 @@
 					console.log('viverseClient loginWithRedirect');
 					// login
 					globalThis.viverseClient.loginWithRedirect({ redirectionUrl: window.location.href });
+				} else if (window.location.search.includes('error=')){
+					// error case
+					console.log('viverseClient loginWithRedirect error: ' + error);
 				} else {
 					//console.log('viverseClient has login:', window.location.search);
 					console.log('viverseClient has login');
