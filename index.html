@@ -176,13 +176,13 @@
 			}
 
 			async function _GetAvatarFile(avatarUrl, objectName, funcName){
-				console.log('viverseClient GetAvatarFile: ' + objectName + '.' + funcName);
+				console.log('viverseClient GetAvatarFile');
 				try{
 					const arrayBuffer = await globalThis.avatarClient.getAvatarFileWithSDK(avatarUrl);
 
 					var blob = new Blob([arrayBuffer], { type: 'application/octet-stream' });
 					var blobUrl = URL.createObjectURL(blob);
-					console.log('blobUrl:' + blobUrl);
+					//console.log('blobUrl:' + blobUrl);
 					unityInstance.SendMessage(objectName, funcName, blobUrl);
 				}catch(e){
 					console.log('sdk load avatar error:' + e);
