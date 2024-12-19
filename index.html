@@ -121,7 +121,11 @@
 						clientId: '50b4e4ef-e480-4950-bf68-4daf71cee7d5',
 						//domain: 'account.htcvive.com', // prod
 						domain: 'account-stage.htcvive.com', // stage
-						cookieDomain: window.location.hostname // Optional
+						cookieDomain: window.location.hostname, // Optional
+						authorizationParams: {
+							scope: 'email',
+							authorities: window.location.hostname,
+						}
 					});
 				}
 
